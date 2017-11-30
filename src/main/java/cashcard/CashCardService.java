@@ -17,11 +17,11 @@ public class CashCardService {
         return cashCardRepository.save(cashCard);
     }
 
-
     public void load(final long id, final BigDecimal amount) {
         final CashCard cashCard = cashCardRepository.findOne(id);
         final BigDecimal newBalance = cashCard.getBalance().add(amount);
         cashCard.setBalance(newBalance);
+        cashCardRepository.save(cashCard);
     }
 
     public void spend(final long id, final BigDecimal amount) {
@@ -31,6 +31,7 @@ public class CashCardService {
             throw new InsufficentFundsException();
         } else {
             cashCard.setBalance(newBalance);
+            cashCardRepository.save(cashCard);
         }
     }
 }
